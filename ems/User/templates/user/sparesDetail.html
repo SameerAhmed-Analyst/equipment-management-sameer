@@ -1,0 +1,218 @@
+{% extends "user/home.html" %}
+{% load static %}
+
+
+{% block title %}
+  Spares
+{% endblock title %}Spares
+{% block main-body %}
+<!-- Top Buttons Start -->
+<section id="add-issue-section">
+  <div class="add-spare" style="margin:10px">
+    <button type="submit" class="btn btn-primary me-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
+      <i class="fa fa-plus" aria-hidden="true"> Add Spare</i>
+    </button>
+  </div>
+  <div>
+    <form action="{% url  'User:spares'  %}" method="get">
+      <label for="search-bar">Search</label>
+      <input type="text" name="search-bar" id="search-bar">
+      <button class="btn btn-primary m-0"><i class="fa fa-search"></i></button>
+    </form>
+  </div>
+</section>
+
+
+<!-- Top Buttons End -->
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+          <div class="modal-content">
+              <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Add New Spare</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+              </div>
+              <form id="add-form" data-url="{% url 'User:spares_add' %}" method="post">
+                  {% csrf_token %}
+
+                  <div class="modal-body">
+                          <div class="mb-3">
+                          <label for="item-code" class="form-label">Item Code</label>
+                          <input name="item-code" value="" type="text" class="form-control" id="item-code" required>
+                          </div>
+                          
+                          <div class="mb-3">
+                          <label for="name" class="form-label">Name</label>
+                          <input name="name" value="" type="text" class="form-control" id="name" aria-describedby="Spare Name" required>
+                          </div>
+                      
+                          <div class="mb-3">
+                          <label for="quantity" class="form-label">quantity</label>
+                          <input name="quantity" value="" type="text" class="form-control" id="quantity" required>
+                          </div>
+                      
+                          <div class="mb-3">
+                              <label for="unit" class="form-label">Unit</label>
+                              <input name="unit" value="" type="text" class="form-control" id="unit" required>
+                          </div>
+            
+                  </div>
+                  <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <input type="submit" onclick="modalData('add-form')" class="btn btn-primary" value="Save">
+                  </div>
+              </form>
+              
+          </div>
+          </div>
+      </div>
+    <!-- Modal Ends -->
+
+
+
+    <!-- Modal update starts -->
+    <div class="modal fade" id="UpdateModal" tabindex="-1" role="dialog" aria-labelledby="UpdateModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Update Spare</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+          </button>
+          </div>
+          <form id="update-form"  method="post">
+              {% csrf_token %}
+
+              <div class="modal-body">
+                      <div class="mb-3">
+                      <label for="update-item-code" class="form-label">Item Code</label>
+                      <input name="update-item-code" type="text" class="form-control" id="update-item-code" required>
+                      </div>
+                      
+                      <div class="mb-3">
+                      <label for="update-name" class="form-label">Name</label>
+                      <input name="update-name" type="text" class="form-control" id="update-name" aria-describedby="Spare Name" required>
+                      </div>
+                  
+                      <div class="mb-3">
+                      <label for="update-quantity" class="form-label">quantity</label>
+                      <input name="update-quantity" type="text" class="form-control" id="update-quantity" required>
+                      </div>
+                  
+                      <div class="mb-3">
+                          <label for="update-unit" class="form-label">Unit</label>
+                          <input name="update-unit" type="text" class="form-control" id="update-unit" required>
+                      </div>
+        
+              </div>
+              <div class="modal-footer">
+              <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
+              <input type="submit" onclick="modalData('update-form')" class="btn btn-primary" value="Update">
+              </div>
+          </form>
+          
+      </div>
+      </div>
+  </div>
+<!-- Modal update Ends -->
+
+
+<!-- Modal Issue starts -->
+    <div class="modal fade" id="issueModal" tabindex="-1" role="dialog" aria-labelledby="UpdateModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Spare Issuance</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+          </button>
+          </div>
+          <form id="issuance-form" method="get">
+              {% csrf_token %}
+
+              <div class="modal-body">
+                      <div class="mb-3">
+                      <label for="issue-item-code" class="form-label">Item Code</label>
+                      <input name="issue-item-code" type="text" class="form-control" id="issue-item-code" readonly>
+                      </div>
+                      
+                      <div class="mb-3">
+                      <label for="issue-name" class="form-label">Name</label>
+                      <input name="issue-name" type="text" class="form-control" id="issue-name" aria-describedby="Spare Name" readonly>
+                      </div>
+                  
+                      <div class="mb-3">
+                      <label for="issue-quantity" class="form-label">Quantity</label>
+                      <input name="issue-quantity" type="number" class="form-control" id="issue-quantity" min=1 required>
+                      </div>
+                  
+                      <div class="mb-3">
+                          <label for="issue-unit" class="form-label">Unit</label>
+                          <input name="issue-unit" type="text" class="form-control" id="issue-unit" readonly>
+                      </div>
+        
+              </div>
+              <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <input type="submit" onclick="modalData('issuance-form')" class="btn btn-primary" value="Issue">
+              </div>
+          </form>
+          
+      </div>
+      </div>
+  </div>
+<!-- Modal Issue Ends -->
+
+
+
+
+    <!-- Spares Table starts -->
+<table class="table table-bordered spare-table">
+  <thead>
+    <tr>
+      <th scope="col">S.No</th>
+      <th scope="col">Item Code</th>
+      <th scope="col">Name</th>
+      <th scope="col">Quantity</th>
+      <th scope="col">Unit</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for spare in spares %}
+    <tr>
+      <th scope="row">{{spare.pk}}</th>
+      <td>{{spare.item_code}}</td>
+      <td>{{spare.name}}</td>
+      <td>{{spare.quantity}}</td>
+      <td>{{spare.unit}}</td>
+      <td><button class="btn btn-primary p-1 m-0" data-bs-toggle="modal" data-bs-target="#issueModal" onclick="issueModal(this)"
+        data-quantity="{{spare.quantity}}"
+        data-item-code="{{spare.item_code}}"
+        data-name="{{spare.name}}"
+        data-unit="{{spare.unit}}"
+        data-url = "{% url 'User:spares_issue' pk=spare.pk %}">
+        <i class="fa fa-minus"></i></button>
+      </td>
+      <td>  <button class="btn btn-warning p-1 m-0" data-bs-toggle="modal" data-bs-target="#UpdateModal" onclick="updateModal(this)" 
+        data-item-code="{{spare.item_code}}" 
+        data-name="{{spare.name}}" 
+        data-quantity="{{spare.quantity}}" 
+        data-unit="{{spare.unit}}"
+        data-url = "{% url 'User:spares_update' pk=spare.pk %}">
+        
+        <i class="fa fa-edit"></i>
+      </button></td>
+      <td><a href="{% url 'User:spares_delete' pk=spare.pk %}"><button class="btn btn-danger p-1 m-0"><i class="fa fa-trash"></i></button></a></td>
+    </tr> 
+    {% endfor %}
+    `
+  </tbody>
+</table>
+
+<script src="{% static 'user/js/machine_detail.js' %}"></script>
+
+<!-- spares table ends -->
+{% endblock main-body %}

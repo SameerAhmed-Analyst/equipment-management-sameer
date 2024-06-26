@@ -1,0 +1,11 @@
+# created by virtualenv automatically
+
+#local development files
+*.sqlite3
+db.sqlite3
+ems/ems.log
+
+#Virtual environment
+venv/
+env/
+.env/
